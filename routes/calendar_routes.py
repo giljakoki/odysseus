@@ -907,6 +907,8 @@ def setup_calendar_routes() -> APIRouter:
                     # Python 3.11 (backslashes in f-string expressions need 3.12+).
                     _desc = ev.description.replace(chr(10), "\\n")
                     lines.append(f"DESCRIPTION:{_desc}")
+                    escaped_desc = ev.description.replace(chr(10), "\\n")
+                    lines.append(f"DESCRIPTION:{escaped_desc}")
                 if ev.location:
                     lines.append(f"LOCATION:{ev.location}")
                 if ev.rrule:
