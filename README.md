@@ -44,9 +44,12 @@ to override deployment-level things like `AUTH_ENABLED`, `DATABASE_URL`,
 or pre-seed `ODYSSEUS_ADMIN_PASSWORD` (otherwise an initial password is
 generated and printed on first boot).
 
+Contributing? See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, testing, and
+pull request guidelines.
+
 ### Option 1: Docker (recommended)
 ```bash
-git clone <your-odysseus-repo-url>
+git clone https://github.com/pewdiepie-archdaemon/odysseus.git
 cd odysseus
 cp .env.example .env       # optional, but recommended for explicit defaults
 docker compose up -d --build
@@ -102,13 +105,13 @@ brew install python@3.11 tmux
 
 Then install Odysseus:
 ```bash
-git clone <your-odysseus-repo-url>
+git clone https://github.com/pewdiepie-archdaemon/odysseus.git
 cd odysseus
 python3 -m venv venv          # on macOS use: python3.11 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python setup.py            # creates data dirs and prints an initial admin password
-uvicorn app:app --host 0.0.0.0 --port 7000
+python -m uvicorn app:app --host 0.0.0.0 --port 7000
 ```
 
 #### Apple Silicon (M-series) notes
@@ -151,13 +154,13 @@ Windows support is not actively tested. Use it with caution; Docker on Linux
 or a Linux/macOS manual install is the safer path for now.
 
 ```powershell
-git clone <your-odysseus-repo-url>
+git clone https://github.com/pewdiepie-archdaemon/odysseus.git
 cd odysseus
 python -m venv venv
 venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python setup.py
-uvicorn app:app --host 0.0.0.0 --port 7000
+python -m uvicorn app:app --host 0.0.0.0 --port 7000
 ```
 
 Open `http://localhost:7000`, log in with the generated admin password,
@@ -205,6 +208,7 @@ Key settings:
 | `LLM_HOSTS` | -- | Comma-separated list for model discovery |
 | `OPENAI_API_KEY` | -- | Optional OpenAI key. Prefer adding providers in the app unless pre-seeding. |
 | `SEARXNG_INSTANCE` | `http://localhost:8080` | SearXNG URL. Docker overrides this to `http://searxng:8080`. |
+| `SEARXNG_SECRET` | generated on first Docker boot | Optional SearXNG cookie/CSRF secret. Leave blank unless you need to pin it. |
 | `AUTH_ENABLED` | `true` | Enable/disable login |
 | `LOCALHOST_BYPASS` | `false` | Development-only auth bypass for loopback requests. Keep false for shared/network deployments. |
 | `DATABASE_URL` | `sqlite:///./data/app.db` | Database connection string |
