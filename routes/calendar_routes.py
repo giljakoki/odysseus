@@ -902,7 +902,11 @@ def setup_calendar_routes() -> APIRouter:
                     lines.append(f"DTSTART:{ev.dtstart.strftime('%Y%m%dT%H%M%S')}")
                     lines.append(f"DTEND:{ev.dtend.strftime('%Y%m%dT%H%M%S')}")
                 if ev.description:
-                    lines.append(f"DESCRIPTION:{ev.description.replace(chr(10), '\\n')}")
+                    # Escape newlines to the literal \n the iCalendar spec wants.
+                    # Kept out of the f-string expression so this stays valid on
+                    # Python 3.11 (backslashes in f-string expressions need 3.12+).
+                    _desc = ev.description.replace(chr(10), "\\n")
+                    lines.append(f"DESCRIPTION:{_desc}")
                 if ev.location:
                     lines.append(f"LOCATION:{ev.location}")
                 if ev.rrule:
